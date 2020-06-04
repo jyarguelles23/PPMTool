@@ -1,6 +1,7 @@
 package kdc.developers.ppmtool.Controllers;
 
 import kdc.developers.ppmtool.Entities.Project;
+import kdc.developers.ppmtool.Services.MapValidationServiceErrors;
 import kdc.developers.ppmtool.Services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,17 +24,13 @@ public class ProjectController {
 
     @Autowired
     ProjectService service;
-
+    @Autowired
+    MapValidationServiceErrors errorservice;
     @PostMapping("")
     public ResponseEntity<?>  createNewProject(@Valid @RequestBody Project project, BindingResult result){
-       if(result.hasErrors()){
-           List<FieldError> field=result.getFieldErrors();
-           HashMap<String,String> error_map=new HashMap<>();
-           for (FieldError error : result.getFieldErrors() ){
-               error_map.put(error.getField(),error.getDefaultMessage());
-           }
-           return new ResponseEntity<HashMap<String,String>>(error_map,HttpStatus.BAD_REQUEST);
-       }
+
+        ResponseEntity<?> errormap=errorservice.MapValidationService(result);
+        if(errormap!=null) return errormap;
        return  new ResponseEntity<Project>(service.saveOrUpdate(project), HttpStatus.CREATED);
     }
 
