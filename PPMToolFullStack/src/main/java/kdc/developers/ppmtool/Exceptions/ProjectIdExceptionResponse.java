@@ -10,9 +10,4 @@ public class ProjectIdExceptionResponse {
 
     String projectIdentifier;
 
-   /* public ProjectIdExceptionResponse(String projectIdentifier){
-        this.projectIdentifier=projectIdentifier;
-    }*/
-
-
 }
