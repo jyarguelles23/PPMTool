@@ -5,16 +5,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import AddProject from "./components/Project/AddProject";
 import Header from "./components/Layout/Header";
+import { Provider } from "react-redux";
+import store from "./Store";
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Header />
+    //provider es de redux y es el q permite conectar las stores con los appjs
+    <Provider store={store}>
+      <Router>
+        <div className="App">
+          <Header />
 
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/addProject" component={AddProject} />
-      </div>
-    </Router>
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/addProject" component={AddProject} />
+        </div>
+      </Router>
+    </Provider>
   );
 }
 
