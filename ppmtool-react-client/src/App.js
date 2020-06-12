@@ -7,6 +7,7 @@ import AddProject from "./components/Project/AddProject";
 import Header from "./components/Layout/Header";
 import { Provider } from "react-redux";
 import store from "./Store";
+import UpdateProject from "./components/Project/UpdateProject";
 function App() {
   return (
     //provider es de redux y es el q permite conectar las stores con los appjs
@@ -17,6 +18,7 @@ function App() {
 
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/addProject" component={AddProject} />
+          <Route exact path="/updateProject/:id" component={UpdateProject} />
         </div>
       </Router>
     </Provider>
