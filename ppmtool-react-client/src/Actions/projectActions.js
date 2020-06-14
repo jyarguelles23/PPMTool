@@ -3,7 +3,7 @@ import { GET_ERRORS } from "./types";
 import { GET_PROJECTS, GET_PROJECT, DELETE_PROJECT } from "./types";
 export const createProject = (project, history) => async (dispatch) => {
   try {
-    const rest = await axios.post("http://localhost:8080/api/project", project);
+    const rest = await axios.post("/api/project", project);
     history.push("/dashboard");
     dispatch({
       type: GET_ERRORS,
@@ -19,7 +19,7 @@ export const createProject = (project, history) => async (dispatch) => {
 
 export const getProjects = () => async (dispatch) => {
   try {
-    const rest = await axios.get("http://localhost:8080/api/project/all");
+    const rest = await axios.get("/api/project/all");
     //dispatch past the data we get from the sprinboot service
     dispatch({
       type: GET_PROJECTS,
@@ -30,7 +30,7 @@ export const getProjects = () => async (dispatch) => {
 
 export const getProject = (id, history) => async (dispatch) => {
   try {
-    const rest = await axios.get(`http://localhost:8080/api/project/${id}/`);
+    const rest = await axios.get(`/api/project/${id}/`);
     //const rest = await axios.get("http://localhost:8080/api/project/"+id);
     //dispatch past the data we get from the sprinboot service
     dispatch({
@@ -48,13 +48,15 @@ export const getProject = (id, history) => async (dispatch) => {
 
 export const deleteProject = (id, history) => async (dispatch) => {
   try {
-    const rest = await axios.delete(`http://localhost:8080/api/project/${id}/`);
-    //const rest = await axios.get("http://localhost:8080/api/project/"+id);
-    //dispatch past the data we get from the sprinboot service
-    dispatch({
-      type: DELETE_PROJECT,
-      payload: id,
-    });
+    if (window.confirm("Are yousure ? this will delete the project")) {
+      const rest = await axios.delete(`/api/project/${id}/`);
+      //const rest = await axios.get("http://localhost:8080/api/project/"+id);
+      //dispatch past the data we get from the sprinboot service
+      dispatch({
+        type: DELETE_PROJECT,
+        payload: id,
+      });
+    }
   } catch (error) {
     /* dispatch({
       type: GET_PROJECTS,
