@@ -1,7 +1,9 @@
 package kdc.developers.ppmtool.Services;
 
+import kdc.developers.ppmtool.Entities.BackLog;
 import kdc.developers.ppmtool.Entities.Project;
 import kdc.developers.ppmtool.Exceptions.ProjectIdException;
+import kdc.developers.ppmtool.Repositories.BackLogRepository;
 import kdc.developers.ppmtool.Repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,15 +13,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProjectService {
 
-
     ProjectRepository repository;
+    BackLogRepository backrepo;
 
-    public ProjectService (ProjectRepository rep){
+    public ProjectService (ProjectRepository rep,BackLogRepository repo){
         this.repository=rep;
+        this.backrepo=repo;
     }
 
     public Project saveOrUpdate(Project p){
        try{
+           if(p.getId() == null){
+               BackLog backlog=new BackLog();
+               p.setBacklog(backlog);
+               backlog.setProject(p);
+               backlog.setProjectidentifier(p.getProjectIdentifier());
+           }
+           else
+           {
+               p.setBacklog(backrepo.findByProjectidentifier(p.getProjectIdentifier()));
+           }
            return repository.save(p);
        }
        catch (Exception e){

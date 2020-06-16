@@ -1,14 +1,15 @@
 package kdc.developers.ppmtool.Entities;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.time.LocalDateTime;
+
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
+
 import javax.persistence.Entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -36,17 +37,21 @@ public class Project {
     Date end_date;
     @JsonFormat(pattern = "yyyy-mm-dd")
     @Column(updatable = false)
-    LocalDateTime created_At;
+    Date created_At;
     @JsonFormat(pattern = "yyyy-mm-dd")
-    LocalDateTime updated_At;
+    Date updated_At;
+    //Owning side of the relationship
+    @OneToOne(fetch= FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "project")
+
+    private BackLog backlog;
 
     @PrePersist
     protected void onCreate(){
-        this.created_At= LocalDateTime.now();
+        this.created_At= new Date();
     }
     @PreUpdate
     protected void onUpdate(){
-        this.updated_At=LocalDateTime.now();
+        this.updated_At=new Date();
     }
 
 }
