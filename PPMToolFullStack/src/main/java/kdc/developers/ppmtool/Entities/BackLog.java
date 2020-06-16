@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -26,7 +28,8 @@ public class BackLog {
    // @MapsId
    @JoinColumn(name = "project_id",nullable = false)
     @JsonIgnore
-            Project project;
+    Project project;
     //OnetoMany ProjectTask
-
+    @OneToMany(fetch= FetchType.EAGER,cascade = CascadeType.ALL,mappedBy ="backlog")
+    List<ProjectTask> projectTasks=new ArrayList<>();
 }

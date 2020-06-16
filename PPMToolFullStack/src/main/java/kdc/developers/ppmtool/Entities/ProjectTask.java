@@ -1,6 +1,7 @@
 package kdc.developers.ppmtool.Entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,12 @@ public class ProjectTask {
    Date created_At;
     @JsonFormat(pattern = "yyyy-mm-dd")
    Date updated_At;
+
+    //cascade Refresh hace q si se borra un project task inmediatamente el backlog se pa q ese task ya no existe
+    @ManyToOne(fetch= FetchType.EAGER,cascade = CascadeType.REFRESH)
+    @JoinColumn(name="backlog_id",updatable = false,nullable = false)
+    @JsonIgnore
+    BackLog backlog;
 
     @PrePersist
     protected void onCreate(){
