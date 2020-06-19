@@ -40,9 +40,10 @@ public class Project {
     Date created_At;
     @JsonFormat(pattern = "yyyy-mm-dd")
     Date updated_At;
-    //Owning side of the relationship
+    //Owning side of the relationship la anotacion json ignore permite cargar la entity mas rapido
+    // y no cargar los datos de la relacion
     @OneToOne(fetch= FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "project")
-
+    @JsonIgnore
     private BackLog backlog;
 
     @PrePersist

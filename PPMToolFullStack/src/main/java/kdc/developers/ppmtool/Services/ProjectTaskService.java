@@ -8,6 +8,8 @@ import kdc.developers.ppmtool.Repositories.ProjectRepository;
 import kdc.developers.ppmtool.Repositories.ProjectTaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProjectTaskService {
 
@@ -52,8 +54,13 @@ public class ProjectTaskService {
             return repository.save(p);
         }
         catch (Exception e){
-            throw new ProjectIdException("Project Id '"+p.getProjectIdentifier().toUpperCase()+"' already exist");
+            throw new ProjectIdException( "Cannot insert with because project Identifier "+projectIdentifier.toUpperCase()+"' is not in the system");
         }
+    }
+
+    public Iterable<ProjectTask> findBacklogId(String backlog_id){
+
+        return repository.findByProjectIdentifierOrderByPriority(backlog_id);
     }
 
 

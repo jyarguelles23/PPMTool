@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/backlog")
@@ -30,5 +31,10 @@ public class ProjectTaskController {
         if(errormap!=null) return errormap;
 
         return  new ResponseEntity<ProjectTask>(service.addProjectTask(backlog_id,project), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{backlog_id}")
+    public Iterable<ProjectTask> getProjectBackLog(@PathVariable String backlog_id){
+        return service.findBacklogId(backlog_id);
     }
 }
