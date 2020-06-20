@@ -3,6 +3,7 @@ package kdc.developers.ppmtool.Services;
 import kdc.developers.ppmtool.Entities.BackLog;
 import kdc.developers.ppmtool.Entities.ProjectTask;
 import kdc.developers.ppmtool.Exceptions.ProjectIdException;
+import kdc.developers.ppmtool.Exceptions.ProjectNotFoundException;
 import kdc.developers.ppmtool.Repositories.BackLogRepository;
 import kdc.developers.ppmtool.Repositories.ProjectRepository;
 import kdc.developers.ppmtool.Repositories.ProjectTaskRepository;
@@ -27,9 +28,6 @@ public class ProjectTaskService {
             //project!=null backlog exist
             BackLog backlog=backrepo.findByProjectidentifier(projectIdentifier);
 
-            if(backlog.getId()== null){
-                throw new ProjectIdException( "Cannot insert with because project Identifier "+projectIdentifier.toUpperCase()+"' is not in the system");
-            }
             //set backlog to ptask
             p.setBacklog(backlog);
             //project sequence
@@ -54,11 +52,15 @@ public class ProjectTaskService {
             return repository.save(p);
         }
         catch (Exception e){
-            throw new ProjectIdException( "Cannot insert with because project Identifier "+projectIdentifier.toUpperCase()+"' is not in the system");
+            throw new ProjectNotFoundException( "Cannot insert with because project Identifier "+projectIdentifier.toUpperCase()+"' is not in the system");
         }
     }
 
     public Iterable<ProjectTask> findBacklogId(String backlog_id){
+        BackLog backlog=backrepo.findByProjectidentifier(backlog_id);
+        if(backlog==null){
+            throw new ProjectNotFoundException( "Project doesnt exist");
+        }
 
         return repository.findByProjectIdentifierOrderByPriority(backlog_id);
     }
