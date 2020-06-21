@@ -7,6 +7,7 @@ import kdc.developers.ppmtool.Exceptions.ProjectNotFoundException;
 import kdc.developers.ppmtool.Repositories.BackLogRepository;
 import kdc.developers.ppmtool.Repositories.ProjectRepository;
 import kdc.developers.ppmtool.Repositories.ProjectTaskRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -63,6 +64,25 @@ public class ProjectTaskService {
         }
 
         return repository.findByProjectIdentifierOrderByPriority(backlog_id);
+    }
+
+    public ProjectTask findProjectTaskByProjectSequence(String projectSequence,String backlog_id){
+       //make sure to find an existing backlog
+        BackLog backlog=backrepo.findByProjectidentifier(backlog_id);
+        if(backlog==null){
+            throw new ProjectNotFoundException( "Project bakclog doesnt exist");
+        }
+       //make sure that the task exist
+        ProjectTask p=repository.findByProjectSequence(projectSequence);
+        if(p==null){
+            throw new ProjectNotFoundException( "Project task doesnt exist");
+        }
+       //make sure that the backlog and project id corresponds to the same project
+        if(!p.getProjectIdentifier().equals(backlog_id)){
+            throw new ProjectNotFoundException( "Doesnt match the project identifier with the project task");
+        }
+         return p;
+
     }
 
 
