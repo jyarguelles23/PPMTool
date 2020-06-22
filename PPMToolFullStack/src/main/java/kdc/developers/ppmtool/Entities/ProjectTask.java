@@ -36,7 +36,7 @@ public class ProjectTask {
    Date updated_At;
 
     //cascade Refresh hace q si se borra un project task inmediatamente el backlog se pa q ese task ya no existe
-    @ManyToOne(fetch= FetchType.EAGER,cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch= FetchType.EAGER)
     @JoinColumn(name="backlog_id",updatable = false,nullable = false)
     @JsonIgnore
     BackLog backlog;

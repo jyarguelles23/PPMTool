@@ -30,6 +30,6 @@ public class BackLog {
     @JsonIgnore
     Project project;
     //OnetoMany ProjectTask
-    @OneToMany(fetch= FetchType.EAGER,cascade = CascadeType.ALL,mappedBy ="backlog")
+    @OneToMany(fetch= FetchType.EAGER,cascade = CascadeType.REFRESH,mappedBy ="backlog",orphanRemoval = true)
     List<ProjectTask> projectTasks=new ArrayList<>();
 }
