@@ -42,7 +42,7 @@ public class ProjectTaskService {
 
             //Initial priority
             //(p.getPriority() == 0) ||
-            if(p.getPriority()==null){
+            if((p.getPriority()==null) || (p.getPriority() == 0)){
                 p.setPriority(3);
             }
 
