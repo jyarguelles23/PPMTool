@@ -29,13 +29,15 @@ public class ProjectTaskService {
             //project!=null backlog exist
             BackLog backlog=backrepo.findByProjectidentifier(projectIdentifier);
 
-            //set backlog to ptask
-            p.setBacklog(backlog);
+
             //project sequence
             Integer backLogSequence=backlog.getPTSequence();
             //Update sequence
             backLogSequence++;
             backlog.setPTSequence(backLogSequence);
+
+            //set backlog to ptask
+            p.setBacklog(backlog);
             //Add sequence to Ptask
             p.setProjectSequence(projectIdentifier+"-"+backLogSequence);
             p.setProjectIdentifier(projectIdentifier);

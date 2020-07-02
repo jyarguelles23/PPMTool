@@ -8,6 +8,22 @@ class BackLog extends Component {
     const tasks = project_tasks.map((project_task) => (
       <ProjectTask key={project_task.id} project_task={project_task} />
     ));
+
+    let todoItems = [];
+    let inProgressItems = [];
+    let doneItems = [];
+
+    console.log(tasks);
+    tasks.map((task) => {
+      if (task.props.project_task.status === "TO_DO") {
+        todoItems.push(task);
+      } else if (task.props.project_task.status === "IN_PROGRESS") {
+        inProgressItems.push(task);
+      } else {
+        doneItems.push(task);
+      }
+    });
+
     return (
       <div className="container">
         <div className="row">
@@ -17,7 +33,7 @@ class BackLog extends Component {
                 <h3>TO DO</h3>
               </div>
             </div>
-            {tasks}
+            {todoItems}
           </div>
           <div className="col-md-4">
             <div className="card text-center mb-2">
@@ -25,6 +41,7 @@ class BackLog extends Component {
                 <h3>In Progress</h3>
               </div>
             </div>
+            {inProgressItems}
           </div>
           <div className="col-md-4">
             <div className="card text-center mb-2">
@@ -32,6 +49,7 @@ class BackLog extends Component {
                 <h3>Done</h3>
               </div>
             </div>
+            {doneItems}
           </div>
         </div>
       </div>

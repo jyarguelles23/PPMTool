@@ -1,15 +1,14 @@
 package kdc.developers.ppmtool.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -26,7 +25,7 @@ public class BackLog {
     //Oneto One whith project
     @OneToOne(fetch = FetchType.EAGER)
    // @MapsId
-   @JoinColumn(name = "project_id",nullable = false)
+    @JoinColumn(name = "project_id",nullable = false)
     @JsonIgnore
     Project project;
     //cascade Refresh hace q si se borra un project task inmediatamente el backlog se pa q ese task ya no existe
