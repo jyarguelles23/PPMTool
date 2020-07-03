@@ -29,7 +29,6 @@ public class ProjectTaskService {
             //project!=null backlog exist
             BackLog backlog=backrepo.findByProjectidentifier(projectIdentifier);
 
-
             //project sequence
             Integer backLogSequence=backlog.getPTSequence();
             //Update sequence

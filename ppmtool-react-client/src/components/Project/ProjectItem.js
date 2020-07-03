@@ -56,7 +56,7 @@ class ProjectItem extends Component {
 
 ProjectItem.propTypes = {
   deleteProject: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
+  // errors: PropTypes.object.isRequired,
 };
 
 export default connect(null, { deleteProject })(ProjectItem);

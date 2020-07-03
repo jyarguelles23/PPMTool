@@ -22,6 +22,7 @@ class BackLog extends Component {
       } else {
         doneItems.push(task);
       }
+      return null;
     });
 
     return (
