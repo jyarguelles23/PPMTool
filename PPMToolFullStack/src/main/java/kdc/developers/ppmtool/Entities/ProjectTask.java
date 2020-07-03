@@ -29,7 +29,8 @@ public class ProjectTask {
    //Many toOne with Backlogs
     @Column(updatable = false)
     String projectIdentifier;
-   Date dueDate;
+    @JsonFormat(pattern = "yyyy-mm-dd")
+    Date dueDate;
     @JsonFormat(pattern = "yyyy-mm-dd")
    Date created_At;
     @JsonFormat(pattern = "yyyy-mm-dd")
