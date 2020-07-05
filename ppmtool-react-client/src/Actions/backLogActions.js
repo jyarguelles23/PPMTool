@@ -1,5 +1,10 @@
 import axios from "axios";
-import { GET_ERRORS, GET_BACKLOG, GET_PROJECT_TASK } from "./types";
+import {
+  GET_ERRORS,
+  GET_BACKLOG,
+  GET_PROJECT_TASK,
+  DELETE_PROJECT_TASK,
+} from "./types";
 
 export const addProjectTask = (backlog_id, project_task, history) => async (
   dispatch
@@ -73,4 +78,22 @@ export const updateProjectTask = (
       payload: error.response.data,
     });
   }
+};
+
+export const deleteProjectTask = (backlog_id, project_sequence) => async (
+  dispatch
+) => {
+  try {
+    if (window.confirm("Are yousure ? this will delete the project task")) {
+      const rest = await axios.delete(
+        `/api/backlog/${backlog_id}/${project_sequence}`
+      );
+
+      //dispatch past the data we get from the sprinboot service
+      dispatch({
+        type: DELETE_PROJECT_TASK,
+        payload: project_sequence,
+      });
+    }
+  } catch (error) {}
 };
