@@ -40,7 +40,7 @@ public class ProjectService {
                backlog.setProjectidentifier(p.getProjectIdentifier());
            }
            else
-           {
+           {   Project a=findProjectByIdentifier(p.getProjectIdentifier(),userName);
                p.setBacklog(backrepo.findByProjectidentifier(p.getProjectIdentifier()));
            }
            return repository.save(p);
