@@ -7,6 +7,7 @@ import kdc.developers.ppmtool.Exceptions.ProjectNotFoundException;
 import kdc.developers.ppmtool.Repositories.BackLogRepository;
 import kdc.developers.ppmtool.Repositories.ProjectRepository;
 import kdc.developers.ppmtool.Repositories.ProjectTaskRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,17 +18,22 @@ public class ProjectTaskService {
 
     ProjectTaskRepository repository;
     BackLogRepository backrepo;
+    ProjectRepository projectRepository;
+    @Autowired
+    ProjectService projectService;
 
-    public ProjectTaskService(ProjectTaskRepository rep,BackLogRepository repo){
+    public ProjectTaskService(ProjectTaskRepository rep,BackLogRepository repo,ProjectRepository pr){
         this.repository=rep;
         this.backrepo=repo;
+        this.projectRepository=pr;
     }
 
-    public ProjectTask addProjectTask(String projectIdentifier,ProjectTask p){
+    public ProjectTask addProjectTask(String projectIdentifier,ProjectTask p,String username){
         try{
 
             //project!=null backlog exist
-            BackLog backlog=backrepo.findByProjectidentifier(projectIdentifier);
+           // BackLog backlog=backrepo.findByProjectidentifier(projectIdentifier);
+            BackLog backlog=projectService.findProjectByIdentifier(projectIdentifier,username).getBacklog();
 
             //project sequence
             Integer backLogSequence=backlog.getPTSequence();
@@ -58,11 +64,14 @@ public class ProjectTaskService {
         }
     }
 
-    public Iterable<ProjectTask> findBacklogId(String backlog_id){
-        BackLog backlog=backrepo.findByProjectidentifier(backlog_id);
+    public Iterable<ProjectTask> findBacklogId(String backlog_id,String username){
+
+        /*BackLog backlog=backrepo.findByProjectidentifier(backlog_id);
         if(backlog==null){
             throw new ProjectNotFoundException( "Project doesnt exist");
-        }
+        }*/
+
+        projectService.findProjectByIdentifier(backlog_id,username);
 
         return repository.findByProjectIdentifierOrderByPriority(backlog_id);
     }
