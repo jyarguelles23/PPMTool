@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomUserDetailsService customUserDetailsService;
 
     @Bean
-    public JwtAuthenticationFilter authenticationFilter() {return new JwtAuthenticationFilter();}
+    public JwtAuthenticationFilter jwtauthenticationFilter() {return new JwtAuthenticationFilter();}
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -58,8 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //for server dont save sessions
-           /*     .and()
-                .headers().frameOptions().sameOrigin()*/ //enable h2 database in security
+                .and()
+                .headers().frameOptions().sameOrigin() //enable h2 database in security
                 .and()
                 .authorizeRequests()
                 .antMatchers(  "/",
@@ -74,7 +74,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(SIGN_UP_URLS).permitAll()
                 .anyRequest().authenticated();
 
-                http.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                http.addFilterBefore(jwtauthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
 
     }
 

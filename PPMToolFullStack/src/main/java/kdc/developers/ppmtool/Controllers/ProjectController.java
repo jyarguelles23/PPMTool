@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.lang.reflect.Field;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,11 +26,11 @@ public class ProjectController {
     @Autowired
     MapValidationServiceErrors errorservice;
     @PostMapping("")
-    public ResponseEntity<?>  createNewProject(@Valid @RequestBody Project project, BindingResult result){
+    public ResponseEntity<?>  createNewProject(@Valid @RequestBody Project project, BindingResult result, Principal principal){
 
         ResponseEntity<?> errormap=errorservice.MapValidationService(result);
         if(errormap!=null) return errormap;
-       return  new ResponseEntity<Project>(service.saveOrUpdate(project), HttpStatus.CREATED);
+       return  new ResponseEntity<Project>(service.saveOrUpdate(project,principal.getName()), HttpStatus.CREATED);
     }
 
     @GetMapping("/{projectId}")

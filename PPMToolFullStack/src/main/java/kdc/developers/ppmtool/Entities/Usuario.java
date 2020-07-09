@@ -12,8 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -32,7 +34,7 @@ public class Usuario implements UserDetails {
     String username;
 
     @NotBlank(message = "PLease enter your full name")
-    String fullname;
+    String fullName;
 
     @NotBlank(message = "Password cannot be empty!")
     String password;
@@ -43,6 +45,9 @@ public class Usuario implements UserDetails {
     Date updated_At;
 
     //One To Many Qith Projects
+    @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER,mappedBy = "user" , orphanRemoval = true)
+    List<Project> project=new ArrayList<>();
+
 
     @PrePersist
     protected void onCreate(){

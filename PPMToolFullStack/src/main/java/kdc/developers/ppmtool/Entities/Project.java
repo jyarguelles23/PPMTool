@@ -46,6 +46,12 @@ public class Project {
     @JsonIgnore
     private BackLog backlog;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    Usuario user;
+
+    String projectLeader;
+
     @PrePersist
     protected void onCreate(){
         this.created_At= new Date();
