@@ -8,6 +8,8 @@ public interface ProjectRepository extends CrudRepository<Project,Long> {
     Project findByProjectIdentifier(String identifier);
     @Override
     Iterable<Project> findAllById(Iterable<Long> iterable);
+
+    Iterable<Project> findAllByProjectLeader(String user);
 }
 
 

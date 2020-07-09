@@ -4,6 +4,7 @@ import kdc.developers.ppmtool.Entities.BackLog;
 import kdc.developers.ppmtool.Entities.Project;
 import kdc.developers.ppmtool.Entities.Usuario;
 import kdc.developers.ppmtool.Exceptions.ProjectIdException;
+import kdc.developers.ppmtool.Exceptions.ProjectNotFoundException;
 import kdc.developers.ppmtool.Repositories.BackLogRepository;
 import kdc.developers.ppmtool.Repositories.ProjectRepository;
 import kdc.developers.ppmtool.Repositories.UserRepository;
@@ -50,24 +51,24 @@ public class ProjectService {
 
     }
 
-    public Project findProjectByIdentifier(String projectId){
+    public Project findProjectByIdentifier(String projectId,String username){
         Project project=repository.findByProjectIdentifier(projectId);
         if(project == null){
             throw new ProjectIdException( "Id project '"+ projectId.toUpperCase()+"' is not in the system");
         }
+
+        if(!project.getProjectLeader().equals(username)){
+            throw new ProjectNotFoundException("Project not found in your account!");
+        }
+
         return project;
     }
 
-    public Iterable<Project> findAllProjects(){
-        return repository.findAll();
+    public Iterable<Project> findAllProjects(String username){
+        return repository.findAllByProjectLeader(username);
     }
 
-    public void deleteProjectByIdentifier(String projectId){
-
-        Project project=repository.findByProjectIdentifier(projectId);
-        if(project == null){
-            throw new ProjectIdException( "Cannot delete with ID '"+ projectId.toUpperCase()+"' is not in the system");
-        }
-        repository.delete(project);
+    public void deleteProjectByIdentifier(String projectId,String username){
+        repository.delete(findProjectByIdentifier(projectId,username));
     }
 }
