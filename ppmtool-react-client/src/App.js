@@ -11,6 +11,9 @@ import UpdateProject from "./components/Project/UpdateProject";
 import ProjectBoard from "./components/ProjectBoard/ProjectBoard";
 import AddProjectTask from "./components/ProjectBoard/ProjectTasks/AddProjectTask";
 import UpdateProjectTask from "./components/ProjectBoard/ProjectTasks/UpdateProjectTask";
+import Login from "./components/UserManagment/Login";
+import Register from "./components/UserManagment/Register";
+import Landing from "./components/Layout/Landing";
 function App() {
   return (
     //provider es de redux y es el q permite conectar las stores con los appjs
@@ -18,7 +21,15 @@ function App() {
       <Router>
         <div className="App">
           <Header />
-
+          {
+            //Public Routes
+          }
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          {
+            //Private Routes
+          }
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/addProject" component={AddProject} />
           <Route exact path="/updateProject/:id" component={UpdateProject} />
