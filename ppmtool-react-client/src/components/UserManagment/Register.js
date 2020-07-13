@@ -17,6 +17,13 @@ class Register extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  //If your logged in and try to go to login page i redirect you to the user dashboard
+  componentDidMount() {
+    if (this.props.security.validToken) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
   onChange(e) {
     //te permite escribir en todos los input guardando su valor
     this.setState({ [e.target.name]: e.target.value });
@@ -133,10 +140,12 @@ class Register extends Component {
 Register.propTypes = {
   createNewUser: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
+  security: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   errors: state.errors,
+  security: state.security,
 });
 
 export default connect(mapStateToProps, { createNewUser })(Register);

@@ -73,9 +73,9 @@ class Header extends Component {
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
         <div className="container">
-          <a className="navbar-brand" href="Dashboard.html">
+          <Link className="navbar-brand" to="/">
             Personal Project Management Tool
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
