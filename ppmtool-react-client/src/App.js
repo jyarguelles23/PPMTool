@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import Dashboard from "./components/Dashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AddProject from "./components/Project/AddProject";
 import Header from "./components/Layout/Header";
 import { Provider } from "react-redux";
@@ -18,6 +18,7 @@ import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
 import { SET_CURRENT_USER } from "../src/Actions/types";
 import { logout } from "../src/Actions/securityActions";
+import SecuredRoutes from "./securityUtils/secureRoute";
 
 //Esto es para que en todas las pagians siempre tenga en el header el jwt Token generado y asi aunque refresque la pagina el service de springboot siempre me traera la data del user logeado.
 const jwtToken = localStorage.jwtToken;
@@ -53,16 +54,30 @@ function App() {
           {
             //Private Routes
           }
-          <Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/addProject" component={AddProject} />
-          <Route exact path="/updateProject/:id" component={UpdateProject} />
-          <Route exact path="/projectBoard/:id" component={ProjectBoard} />
-          <Route exact path="/addProjectTask/:id" component={AddProjectTask} />
-          <Route
-            exact
-            path="/updateProjectTask/:backlog_id/:pt_id"
-            component={UpdateProjectTask}
-          />
+          <Switch>
+            <SecuredRoutes exact path="/dashboard" component={Dashboard} />
+            <SecuredRoutes exact path="/addProject" component={AddProject} />
+            <SecuredRoutes
+              exact
+              path="/updateProject/:id"
+              component={UpdateProject}
+            />
+            <SecuredRoutes
+              exact
+              path="/projectBoard/:id"
+              component={ProjectBoard}
+            />
+            <SecuredRoutes
+              exact
+              path="/addProjectTask/:id"
+              component={AddProjectTask}
+            />
+            <SecuredRoutes
+              exact
+              path="/updateProjectTask/:backlog_id/:pt_id"
+              component={UpdateProjectTask}
+            />
+          </Switch>
         </div>
       </Router>
     </Provider>
