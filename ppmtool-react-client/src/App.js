@@ -17,6 +17,7 @@ import Landing from "./components/Layout/Landing";
 import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
 import { SET_CURRENT_USER } from "../src/Actions/types";
+import { logout } from "../src/Actions/securityActions";
 
 //Esto es para que en todas las pagians siempre tenga en el header el jwt Token generado y asi aunque refresque la pagina el service de springboot siempre me traera la data del user logeado.
 const jwtToken = localStorage.jwtToken;
@@ -32,6 +33,8 @@ if (jwtToken) {
   if (decode_jwtToken.exp < currentTime) {
     //handle logout
     // window.location.href = "/";
+    store.dispatch(logout());
+    window.location.href = "/";
   }
 }
 function App() {
