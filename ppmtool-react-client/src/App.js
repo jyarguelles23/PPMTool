@@ -14,6 +14,26 @@ import UpdateProjectTask from "./components/ProjectBoard/ProjectTasks/UpdateProj
 import Login from "./components/UserManagment/Login";
 import Register from "./components/UserManagment/Register";
 import Landing from "./components/Layout/Landing";
+import jwt_decode from "jwt-decode";
+import setJWTToken from "./securityUtils/setJWTToken";
+import { SET_CURRENT_USER } from "../src/Actions/types";
+
+//Esto es para que en todas las pagians siempre tenga en el header el jwt Token generado y asi aunque refresque la pagina el service de springboot siempre me traera la data del user logeado.
+const jwtToken = localStorage.jwtToken;
+if (jwtToken) {
+  setJWTToken(jwtToken);
+  const decode_jwtToken = jwt_decode(jwtToken);
+  store.dispatch({
+    type: SET_CURRENT_USER,
+    payload: decode_jwtToken,
+  });
+  //Aqui manejamos la logica si el token expiro para deslogear
+  const currentTime = Date.now() / 1000;
+  if (decode_jwtToken.exp < currentTime) {
+    //handle logout
+    // window.location.href = "/";
+  }
+}
 function App() {
   return (
     //provider es de redux y es el q permite conectar las stores con los appjs
